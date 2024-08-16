@@ -1,0 +1,47 @@
+name: CI
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+env:
+  CARGO_TERM_COLOR: always
+  RUST_LOG: info
+  RUST_BACKTRACE: 1
+  RUSTFLAGS: "-Dwarnings"
+  CI: true
+
+jobs:
+  code-quality:
+    name: Code Quality
+    runs-on: ubuntu-latest
+    steps:
+      - name: 📥 Checkout code
+        uses: actions/checkout@v4
+
+      - name: 🛠️ Install Rust toolchain
+        uses: moonrepo/setup-rust@v1
+        with:
+          components: clippy,rustfmt
+
+      - name: 🎨 Check formatting
+        run: cargo fmt --all --check
+
+      - name: 🔍 Run Clippy
+        run: cargo clippy
+
+  build-and-test:
+    name: Build and Test
+    runs-on: ubuntu-latest
+    steps:
+      - name: 📥 Checkout code
+        uses: actions/checkout@v4
+
+      - name: 🛠️ Install Rust toolchain
+        uses: moonrepo/setup-rust@v1
+
+      - name: 🏗️ Build
+        run: cargo build --release
+
+      - name: 🧪 Run tests
+        run: cargo test

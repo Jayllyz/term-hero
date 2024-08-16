@@ -1,10 +1,10 @@
+use ratatui::backend::CrosstermBackend;
+use ratatui::Terminal;
+use std::io;
 use term_hero::app::{App, AppResult};
 use term_hero::event::{Event, EventHandler};
 use term_hero::handler::handle_key_events;
 use term_hero::tui::Tui;
-use std::io;
-use ratatui::backend::CrosstermBackend;
-use ratatui::Terminal;
 
 fn main() -> AppResult<()> {
     // Create an application.
